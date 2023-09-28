@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: catalogo-produto-api
+  main:
+    web-application-type: servlet
+  web:
+    resources:
+      add-mappings: false
+  datasource:
+    name: catalogo-produtos
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/catalogo-produtos?currentSchema=catalogo_produtos
+    username: catalogo-produtos
+    password: catalogo-produtos
+
+server:
+  port: 8080
