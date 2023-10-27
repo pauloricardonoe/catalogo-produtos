@@ -1,31 +1,30 @@
-package br.com.catalogoprodutos.adapters.http
+package br.com.catalogoprodutos.adapters.http.produto
 
 import br.com.catalogoprodutos.application.produto.ProdutoCreateCommand
 import br.com.catalogoprodutos.application.produto.ProdutoUpdateCommand
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.RestController
 import br.com.catalogoprodutos.domain.produto.Produto
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
 private const val UUID_REGEX = "[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}"
-
 @RestController
 class ProdutoController(
     private val produtoHandler: ProdutoHandler
 ) {
 
     @GetMapping("/produtos")
-    fun findAll(): ResponseEntity<List<Produto>>{
+    fun findAll(): ResponseEntity<List<Produto>> {
         return produtoHandler.findAll()
     }
 
     @GetMapping("/produtos/{produtoId:$UUID_REGEX}")
-    fun findById(@PathVariable produtoId: String): ResponseEntity<Produto>{
+    fun findById(@PathVariable produtoId: String): ResponseEntity<Produto> {
         return produtoHandler.findById(produtoId)
     }
 

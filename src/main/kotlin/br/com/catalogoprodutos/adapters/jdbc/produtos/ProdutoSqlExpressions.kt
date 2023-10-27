@@ -1,4 +1,4 @@
-package br.com.catalogoprodutos.adapters.jdbc
+package br.com.catalogoprodutos.adapters.jdbc.produtos
 
 object ProdutoSqlExpressions {
 

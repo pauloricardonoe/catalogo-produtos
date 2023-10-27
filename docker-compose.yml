@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+    db:
+        container_name: postgres
+        image: postgres
+        environment:
+            POSTGRES_PASSWORD: catalogo-produtos
+            POSTGRES_USER: catalogo-produtos
+            POSTGRES_DB: catalogo-produtos
+        ports:
+            - '5432:5432'
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U catalogo-produtos" ]
+            interval: 2s
+            timeout: 3s
+            retries: 30
+
+    
