@@ -1,4 +1,4 @@
-package br.com.catalogoprodutos.adapters.http
+package br.com.catalogoprodutos.adapters.http.produto.imagem
 
 import br.com.catalogoprodutos.application.produto.imagem.ImagemService
 import br.com.catalogoprodutos.produto.imagem.Imagem
@@ -10,7 +10,7 @@ import java.util.UUID
 class ImagemHandler(
     private val imagemService: ImagemService
 ) {
-    fun findAll(produtoId: String): ResponseEntity<Set<Imagem>>{
+    fun findAll(produtoId: String): ResponseEntity<Set<Imagem>> {
         return ResponseEntity.ok(imagemService.findAll(UUID.fromString(produtoId)))
     }
 

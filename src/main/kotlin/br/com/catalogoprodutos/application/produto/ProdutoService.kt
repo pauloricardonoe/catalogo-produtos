@@ -8,18 +8,18 @@ import java.util.UUID
 
 @Service
 class ProdutoService(
-    private val produtoRepository: ProdutoRepository
+    private val produtoRepository: ProdutoRepository,
 ) {
 
-    fun findAll(): List<Produto>{
+    fun findAll(): List<Produto> {
         return produtoRepository.findAll()
     }
 
-    fun findById(produtoId: UUID): Produto{
+    fun findById(produtoId: UUID): Produto {
         return produtoRepository.findById(produtoId) ?: throw ProdutoNaoEncontradoException(produtoId)
     }
 
-    fun inserir(produto: ProdutoCreateCommand): Produto{
+    fun inserir(produto: ProdutoCreateCommand): Produto {
         val produtoDomain = produto.toProduto()
         produtoRepository.inserir(produto = produtoDomain)
         return findById(produtoDomain.id)
@@ -32,7 +32,7 @@ class ProdutoService(
         return findById(produtoId = produtoId)
     }
 
-    fun excluir(produtoId: UUID){
+    fun excluir(produtoId: UUID) {
         produtoRepository.findById(produtoId = produtoId) ?: throw ProdutoNaoEncontradoException(produtoId)
         produtoRepository.excluir(produtoId)
     }

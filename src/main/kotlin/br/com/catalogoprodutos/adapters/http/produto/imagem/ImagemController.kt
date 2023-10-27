@@ -1,4 +1,4 @@
-package br.com.catalogoprodutos.adapters.http
+package br.com.catalogoprodutos.adapters.http.produto.imagem
 
 import br.com.catalogoprodutos.produto.imagem.Imagem
 import org.springframework.http.ResponseEntity

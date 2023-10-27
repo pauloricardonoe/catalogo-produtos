@@ -1,10 +1,10 @@
-package br.com.catalogoprodutos.adapters.jdbc
+package br.com.catalogoprodutos.adapters.jdbc.produtos
 
-import br.com.catalogoprodutos.adapters.jdbc.ProdutoSqlExpressions.sqlDeleteById
-import br.com.catalogoprodutos.adapters.jdbc.ProdutoSqlExpressions.sqlInsertProdutos
-import br.com.catalogoprodutos.adapters.jdbc.ProdutoSqlExpressions.sqlSelectAll
-import br.com.catalogoprodutos.adapters.jdbc.ProdutoSqlExpressions.sqlSelectById
-import br.com.catalogoprodutos.adapters.jdbc.ProdutoSqlExpressions.sqlUpdateProduto
+import br.com.catalogoprodutos.adapters.jdbc.produtos.ProdutoSqlExpressions.sqlDeleteById
+import br.com.catalogoprodutos.adapters.jdbc.produtos.ProdutoSqlExpressions.sqlInsertProdutos
+import br.com.catalogoprodutos.adapters.jdbc.produtos.ProdutoSqlExpressions.sqlSelectAll
+import br.com.catalogoprodutos.adapters.jdbc.produtos.ProdutoSqlExpressions.sqlSelectById
+import br.com.catalogoprodutos.adapters.jdbc.produtos.ProdutoSqlExpressions.sqlUpdateProduto
 import br.com.catalogoprodutos.domain.produto.Produto
 import br.com.catalogoprodutos.domain.produto.ProdutoRepository
 import br.com.catalogoprodutos.produto.ProdutoStatus
@@ -20,7 +20,7 @@ import java.util.UUID
 @Repository
 class ProdutosJDBCRepository(
     private val db: NamedParameterJdbcOperations,
-    private val imagemRepository: ImagemRepository
+    private val imagemRepository: ImagemRepository,
 ) : ProdutoRepository {
 
     private companion object {
@@ -30,7 +30,7 @@ class ProdutosJDBCRepository(
     override fun findAll(): List<Produto> {
         val produtos = try {
             db.query(sqlSelectAll(), rowMapper())
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
             LOGGER.error { "Houve um erro ao consultar os produtos: ${ex.message}" }
             throw ex
         }
@@ -51,17 +51,17 @@ class ProdutosJDBCRepository(
 
     @Transactional(rollbackFor = [Exception::class])
     override fun inserir(produto: Produto): Boolean {
-       try {
-           val params = parametros(produto)
-           val linhasAfetadas = db.update(sqlInsertProdutos(), params)
-           produto.imagens.forEach { imagem ->
-               imagemRepository.inserir(imagem, produto.id)
-           }
-           return linhasAfetadas > 0
-       }catch (ex: Exception){
-           LOGGER.error { "Houve um erro ao inserir o produto: ${ex.message}" }
-           throw ex
-       }
+        try {
+            val params = parametros(produto)
+            val linhasAfetadas = db.update(sqlInsertProdutos(), params)
+            produto.imagens.forEach { imagem ->
+                imagemRepository.inserir(imagem, produto.id)
+            }
+            return linhasAfetadas > 0
+        } catch (ex: Exception) {
+            LOGGER.error { "Houve um erro ao inserir o produto: ${ex.message}" }
+            throw ex
+        }
     }
 
     @Transactional(rollbackFor = [Exception::class])
@@ -77,7 +77,7 @@ class ProdutosJDBCRepository(
                 }
             }
             return linhasAfetadas > 0
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
             LOGGER.error { "Houve um erro ao atualizar o produto: ${ex.message}" }
             throw ex
         }
@@ -92,7 +92,7 @@ class ProdutosJDBCRepository(
             val params = MapSqlParameterSource("id", produtoId)
             val linhasExcluidas = db.update(sqlDeleteById(), params)
             return linhasExcluidas == 1
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
             LOGGER.error { "Houve um erro ao excluir o produto: ${ex.message}" }
             throw ex
         }
