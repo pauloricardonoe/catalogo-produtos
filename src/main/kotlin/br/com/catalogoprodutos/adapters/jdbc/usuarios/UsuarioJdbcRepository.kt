@@ -1,5 +1,11 @@
 package br.com.catalogoprodutos.adapters.jdbc.usuarios
 
+import br.com.catalogoprodutos.adapters.jdbc.usuarios.UsuarioSqlExpressions.sqlDeleteById
+import br.com.catalogoprodutos.adapters.jdbc.usuarios.UsuarioSqlExpressions.sqlInsert
+import br.com.catalogoprodutos.adapters.jdbc.usuarios.UsuarioSqlExpressions.sqlSelectAll
+import br.com.catalogoprodutos.adapters.jdbc.usuarios.UsuarioSqlExpressions.sqlSelectByEmail
+import br.com.catalogoprodutos.adapters.jdbc.usuarios.UsuarioSqlExpressions.sqlSelectById
+import br.com.catalogoprodutos.adapters.jdbc.usuarios.UsuarioSqlExpressions.sqlUpdate
 import br.com.catalogoprodutos.domain.usuario.Usuario
 import br.com.catalogoprodutos.domain.usuario.UsuarioRepository
 import mu.KotlinLogging
@@ -20,7 +26,7 @@ class UsuarioJdbcRepository(
 
     override fun findAll(): List<Usuario> {
         val usuarios = try {
-            db.query(UsuarioSqlExpressions.sqlSelectAll(), rowMapper())
+            db.query(sqlSelectAll(), rowMapper())
         } catch (ex: Exception) {
             LOGGER.error { "Houve um erro ao consultar os usuarios: ${ex.message}" }
             throw ex
@@ -32,7 +38,18 @@ class UsuarioJdbcRepository(
     override fun findById(usuarioId: UUID): Usuario? {
         val usuario = try {
             val params = MapSqlParameterSource("id", usuarioId)
-            db.query(UsuarioSqlExpressions.sqlSelectById(), params, rowMapper()).firstOrNull()
+            db.query(sqlSelectById(), params, rowMapper()).firstOrNull()
+        } catch (ex: Exception) {
+            LOGGER.error { "Houve um erro ao consultar o usuario: ${ex.message}" }
+            throw ex
+        }
+        return usuario
+    }
+
+    override fun findByEmail(email: String): Usuario? {
+        val usuario = try {
+            val params = MapSqlParameterSource("email", email)
+            db.query(sqlSelectByEmail(), params, rowMapper()).firstOrNull()
         } catch (ex: Exception) {
             LOGGER.error { "Houve um erro ao consultar o usuario: ${ex.message}" }
             throw ex
@@ -44,7 +61,7 @@ class UsuarioJdbcRepository(
     override fun inserir(usuario: Usuario): Boolean {
         try {
             val params = parametros(usuario)
-            val linhasAfetadas = db.update(UsuarioSqlExpressions.sqlInsert(), params)
+            val linhasAfetadas = db.update(sqlInsert(), params)
             return linhasAfetadas > 0
         } catch (ex: Exception) {
             LOGGER.error { "Houve um erro ao inserir o usuario: ${ex.message}" }
@@ -56,7 +73,7 @@ class UsuarioJdbcRepository(
     override fun atualizar(usuario: Usuario): Boolean {
         try {
             val params = parametros(usuario)
-            val linhasAfetadas = db.update(UsuarioSqlExpressions.sqlUpdate(), params)
+            val linhasAfetadas = db.update(sqlUpdate(), params)
             return linhasAfetadas > 0
         } catch (ex: Exception) {
             LOGGER.error { "Houve um erro ao atualizar o usuario: ${ex.message}" }
@@ -68,7 +85,7 @@ class UsuarioJdbcRepository(
     override fun excluir(usuarioId: UUID): Boolean {
         try {
             val params = MapSqlParameterSource("id", usuarioId)
-            val linhasExcluidas = db.update(UsuarioSqlExpressions.sqlDeleteById(), params)
+            val linhasExcluidas = db.update(sqlDeleteById(), params)
             return linhasExcluidas == 1
         } catch (ex: Exception) {
             LOGGER.error { "Houve um erro ao excluir o usuario: ${ex.message}" }

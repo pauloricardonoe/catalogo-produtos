@@ -11,7 +11,7 @@ import java.util.UUID
 
 @Component
 class ProdutoHandler(
-    private val produtoService: ProdutoService
+    private val produtoService: ProdutoService,
 ) {
     fun findAll(): ResponseEntity<List<Produto>> {
         val produtos = produtoService.findAll()

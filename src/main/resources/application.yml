@@ -13,5 +13,9 @@ spring:
     username: catalogo-produtos
     password: catalogo-produtos
 
+
+jwt:
+  secret: Xk8ufegFsO+TDlf43dyyK5SaaT0/8W4vgHPbCajymV3yCrSGXwv6dNI/EgKZZD46hT24I3aGmj/j+7RP1jMqtA==
+
 server:
   port: 8080
