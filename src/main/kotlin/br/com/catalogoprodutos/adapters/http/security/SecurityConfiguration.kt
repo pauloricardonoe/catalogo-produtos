@@ -3,6 +3,7 @@ package br.com.catalogoprodutos.adapters.http.security
 import br.com.catalogoprodutos.adapters.http.security.exceptions.CustomEntryPoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -19,6 +20,7 @@ class SecurityConfiguration(
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         return http
             .authorizeHttpRequests {
+                it.requestMatchers(HttpMethod.OPTIONS).permitAll()
                 it.requestMatchers("/login/**").permitAll()
                 it.anyRequest().authenticated()
             }

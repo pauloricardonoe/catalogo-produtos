@@ -19,7 +19,7 @@ class LoginController(
 
     @PostMapping("/login")
     fun auth(@RequestBody credenciais: Credenciais): ResponseEntity<Token> {
-        val usuario = usuarioService.findByEmail(credenciais.email)
+        val usuario = usuarioService.findByEmail(credenciais.email) ?: throw CredenciaisInvalidasException()
 
         if (!encoderPassword.matches(credenciais.senha, usuario.password)) {
             throw CredenciaisInvalidasException()

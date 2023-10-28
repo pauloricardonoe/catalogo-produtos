@@ -22,8 +22,8 @@ class UsuarioService(
         return usuarioRepository.findById(usuarioId) ?: throw UsuarioNaoEncontradoException(usuarioId = usuarioId)
     }
 
-    fun findByEmail(email: String): Usuario {
-        return usuarioRepository.findByEmail(email) ?: throw UsuarioNaoEncontradoException(username = email)
+    fun findByEmail(email: String): Usuario? {
+        return usuarioRepository.findByEmail(email)
     }
 
     fun inserir(usuario: UsuarioCreateCommand): Usuario {
