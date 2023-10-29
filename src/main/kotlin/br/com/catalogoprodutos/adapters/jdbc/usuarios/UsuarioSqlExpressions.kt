@@ -21,6 +21,16 @@ object UsuarioSqlExpressions {
         WHERE id = :id
     """.trimIndent()
 
+    fun sqlSelectByEmail() = """
+        select 
+            id,
+            nome,
+            email,
+            password
+        from usuario
+        WHERE email = :email
+    """.trimIndent()
+
     fun sqlInsert() = """
        insert into usuario 
        (id,

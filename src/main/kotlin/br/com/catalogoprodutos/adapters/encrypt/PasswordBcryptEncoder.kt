@@ -11,4 +11,8 @@ class PasswordBcryptEncoder(
     override fun encode(senha: String): String {
         return passwordEncoder.encode(senha)
     }
+
+    override fun matches(rawPassword: String, encodedPassword: String): Boolean {
+        return passwordEncoder.matches(rawPassword, encodedPassword)
+    }
 }

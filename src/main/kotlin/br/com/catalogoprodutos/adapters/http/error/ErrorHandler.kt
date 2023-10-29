@@ -1,4 +1,4 @@
-package br.com.catalogoprodutos.adapter.error
+package br.com.catalogoprodutos.adapters.http.error
 
 import br.com.catalogoprodutos.application.produto.exceptions.ProdutoNaoEncontradoException
 import mu.KotlinLogging
@@ -18,7 +18,7 @@ class ErrorHandler() {
     }
 }
 
-private fun Throwable.toResponse(): Pair<HttpStatus, ErrorResponse> =
+fun Throwable.toResponse(): Pair<HttpStatus, ErrorResponse> =
     when (this) {
         is ProdutoNaoEncontradoException -> toResponse(
             id = this.produtoId,
@@ -32,7 +32,7 @@ private fun Throwable.toResponse(): Pair<HttpStatus, ErrorResponse> =
         }
     }
 
-private fun Throwable.toResponse(
+fun Throwable.toResponse(
     id: UUID? = null,
     statusCode: HttpStatus,
     message: String = this.message ?: "",

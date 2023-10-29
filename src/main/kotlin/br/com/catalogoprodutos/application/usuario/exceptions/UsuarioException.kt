@@ -7,5 +7,7 @@ sealed class UsuarioException(message: String) : Exception(message) {
 }
 
 data class UsuarioNaoEncontradoException(
-    override val usuarioId: UUID?,
-) : UsuarioException("Usuário $usuarioId não encontrado")
+    override val usuarioId: UUID? = null,
+    val username: String? = null,
+) : UsuarioException("Usuário ${usuarioId ?: username} não encontrado")
+

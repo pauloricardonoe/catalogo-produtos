@@ -1,8 +1,10 @@
-package br.com.catalogoprodutos.adapter.error
+package br.com.catalogoprodutos.adapters.http.error
 
+import kotlinx.serialization.Serializable
 import java.util.UUID
 
+@Serializable
 data class ErrorResponse(
-    val id: UUID? = null,
+    @Serializable(with = UUIDSerializer::class) val id: UUID? = null,
     val message: String,
 )
